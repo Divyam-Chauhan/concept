@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cinematic Concept Car Setup</title>
+    <!-- Google Fonts: Syncopate & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link href="/src/style.css" rel="stylesheet">
+  </head>
+  <body class="bg-black text-white font-inter overflow-hidden transition-colors duration-500">
+    <div id="loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-opacity duration-1000">
+      <h1 class="font-syncopate text-2xl tracking-widest uppercase mb-4 text-white/80">Initializing System</h1>
+      <div class="w-64 h-1 bg-white/20 rounded overflow-hidden">
+        <div id="loader-bar" class="h-full bg-white/90 w-0 transition-all duration-75"></div>
+      </div>
+      <p id="loader-text" class="mt-4 text-sm tracking-wider text-white/50 font-inter">0%</p>
+    </div>
+
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

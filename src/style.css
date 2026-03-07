@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-syncopate: "Syncopate", sans-serif;
+}
