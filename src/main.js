@@ -288,7 +288,52 @@ function onAppReady() {
     // Button Interactivity
     const igniteBtn = document.getElementById('ignite-btn');
     if (igniteBtn) {
+      let engineBuffer = null;
+
+      // Load and decode the audio file asynchronously
+      fetch('/engine%20start.m4a')
+        .then(response => response.arrayBuffer())
+        .then(data => audioCtx.decodeAudioData(data))
+        .then(buffer => { engineBuffer = buffer; })
+        .catch(err => console.warn("Failed to load engine start audio:", err));
+
       igniteBtn.addEventListener('click', () => {
+        if (engineBuffer && audioCtx) {
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+
+          const source = audioCtx.createBufferSource();
+          source.buffer = engineBuffer;
+
+          const gainNode = audioCtx.createGain();
+          const duration = engineBuffer.duration;
+
+          // Fade parameters (last 2 seconds)
+          const fadeDuration = 2;
+          const fadeStartTime = duration - fadeDuration;
+
+          // Audio envelope
+          gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+          if (fadeStartTime > 0) {
+            gainNode.gain.setValueAtTime(1, audioCtx.currentTime + fadeStartTime);
+            gainNode.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+          } else {
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+          }
+
+          source.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+
+          source.start(0);
+
+          // Trigger a visceral screen shake to match the aggression
+          document.body.style.transition = "transform 0.05s ease-in-out";
+          document.body.style.transform = "scale(1.02) translateY(5px)";
+          setTimeout(() => { document.body.style.transform = "scale(1.01) translateY(-5px)"; }, 50);
+          setTimeout(() => { document.body.style.transform = "scale(1) translateY(0)"; }, 100);
+        }
+
         lenis.scrollTo('#features', { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
       });
     }
