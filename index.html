@@ -85,6 +85,109 @@
 
     </div>
   </div>
+
+  <!-- Phase 6: Feature Cards End-Screen -->
+  <section id="features" class="relative w-full bg-zinc-950 flex flex-col md:flex-row pb-32">
+    <!-- Left Column: Sticky Graphic (50% Width on Desktop) -->
+    <div
+      class="relative w-full md:w-1/2 h-[50vh] md:h-screen md:sticky top-0 overflow-hidden flex items-center justify-center bg-zinc-900 border-r border-white/5">
+
+      <!-- Graphic 1: Speed -->
+      <div id="graphic-1"
+        class="absolute inset-0 flex flex-col items-center justify-center p-8 transition-opacity duration-700 opacity-100">
+        <h3 class="font-syncopate text-6xl md:text-9xl text-white/5 font-bold tracking-tighter uppercase absolute">340
+        </h3>
+        <span class="font-inter text-neon-orange text-lg tracking-[0.4em] uppercase z-10">Aerodynamics</span>
+      </div>
+
+      <!-- Graphic 2: Engine -->
+      <div id="graphic-2"
+        class="absolute inset-0 flex flex-col items-center justify-center p-8 transition-opacity duration-700 opacity-0">
+        <h3 class="font-syncopate text-6xl md:text-9xl text-white/5 font-bold tracking-tighter uppercase absolute">V8
+        </h3>
+        <span class="font-inter text-neon-orange text-lg tracking-[0.4em] uppercase z-10">Combustion</span>
+      </div>
+
+      <!-- Graphic 3: Power -->
+      <div id="graphic-3"
+        class="absolute inset-0 flex flex-col items-center justify-center p-8 transition-opacity duration-700 opacity-0">
+        <h3 class="font-syncopate text-6xl md:text-9xl text-white/5 font-bold tracking-tighter uppercase absolute">KW
+        </h3>
+        <span class="font-inter text-neon-orange text-lg tracking-[0.4em] uppercase z-10">Electric KERS</span>
+      </div>
+
+      <!-- Graphic 4: Interiors -->
+      <div id="graphic-4"
+        class="absolute inset-0 flex flex-col items-center justify-center p-8 transition-opacity duration-700 opacity-0">
+        <h3 class="font-syncopate text-6xl md:text-9xl text-white/5 font-bold tracking-tighter uppercase absolute">CF
+        </h3>
+        <span class="font-inter text-neon-orange text-lg tracking-[0.4em] uppercase z-10">Carbon Fiber</span>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Scrolling Cards (50% Width on Desktop) -->
+    <div class="w-full md:w-1/2 flex flex-col">
+
+      <!-- Card 1 -->
+      <div class="feature-card h-screen flex items-center justify-center p-8 md:p-24" data-index="1">
+        <div
+          class="w-full max-w-md backdrop-blur-md bg-white/5 p-10 rounded-2xl border border-white/10 hover:border-white/20 transition-colors">
+          <div class="text-neon-orange font-syncopate text-sm tracking-widest mb-4">01</div>
+          <h3 class="font-syncopate text-3xl mb-6 text-white uppercase">Terminal Velocity</h3>
+          <p class="font-inter text-zinc-400 leading-relaxed mb-8">
+            Active aerodynamic flaps adjust in milliseconds. Ground effect tunnels generate over 1,000 kg of downforce
+            at top speed, pinning the car to the tarmac.
+          </p>
+          <div class="h-[1px] w-12 bg-neon-orange"></div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feature-card h-screen flex items-center justify-center p-8 md:p-24" data-index="2">
+        <div
+          class="w-full max-w-md backdrop-blur-md bg-white/5 p-10 rounded-2xl border border-white/10 hover:border-white/20 transition-colors">
+          <div class="text-neon-orange font-syncopate text-sm tracking-widest mb-4">02</div>
+          <h3 class="font-syncopate text-3xl mb-6 text-white uppercase">The Heartbeat</h3>
+          <p class="font-inter text-zinc-400 leading-relaxed mb-8">
+            A bespoke, flat-plane crank V8 engine revving to 10,000 RPM. Dry-sump lubrication and titanium internals
+            ensure relentless power delivery corner after corner.
+          </p>
+          <div class="h-[1px] w-12 bg-neon-orange"></div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feature-card h-screen flex items-center justify-center p-8 md:p-24" data-index="3">
+        <div
+          class="w-full max-w-md backdrop-blur-md bg-white/5 p-10 rounded-2xl border border-white/10 hover:border-white/20 transition-colors">
+          <div class="text-neon-orange font-syncopate text-sm tracking-widest mb-4">03</div>
+          <h3 class="font-syncopate text-3xl mb-6 text-white uppercase">Kinetic Recovery</h3>
+          <p class="font-inter text-zinc-400 leading-relaxed mb-8">
+            F1-derived KERS technology. Dual front-mounted electric motors provide instant torque vectoring, pulling you
+            out of hairpins with zero turbo lag.
+          </p>
+          <div class="h-[1px] w-12 bg-neon-orange"></div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="feature-card h-screen flex items-center justify-center p-8 md:p-24" data-index="4">
+        <div
+          class="w-full max-w-md backdrop-blur-md bg-white/5 p-10 rounded-2xl border border-white/10 hover:border-white/20 transition-colors">
+          <div class="text-neon-orange font-syncopate text-sm tracking-widest mb-4">04</div>
+          <h3 class="font-syncopate text-3xl mb-6 text-white uppercase">The Monocoque</h3>
+          <p class="font-inter text-zinc-400 leading-relaxed mb-8">
+            Exposed forged carbon fiber weaves. The cockpit is molded directly to the driver, deleting unnecessary seat
+            hardware to lower the center of gravity.
+          </p>
+          <div class="h-[1px] w-12 bg-neon-orange"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <script type="module" src="/src/main.js"></script>
 </body>
 

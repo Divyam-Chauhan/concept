@@ -130,9 +130,8 @@ function onAppReady() {
 
   // Initialize Lenis for smooth scrolling
   const lenis = new Lenis({
-    lerp: 0.02, // Lower lerp for much softer, cinematic deceleration
-    smoothWheel: true,
-    wheelMultiplier: 0.8 // Slightly dampen mouse wheel input
+    lerp: 0.05,
+    smoothWheel: true
   });
 
   function raf(time) {
@@ -189,6 +188,37 @@ function onAppReady() {
     currentFrameIndex = 0;
     drawCover(images[0]);
 
+    // Elements for typography stages
+    const stage1 = document.getElementById('stage-1');
+    const stage2 = document.getElementById('stage-2');
+    const stage3 = document.getElementById('stage-3');
+    const stage4 = document.getElementById('stage-4');
+
+    // Helper for interpolating opacity based on scroll progress bounds
+    const calculateOpacity = (progress, startIn, endIn, startOut, endOut) => {
+      if (progress < startIn || progress > endOut) return 0;
+      if (progress >= endIn && progress <= startOut) return 1;
+      if (progress >= startIn && progress < endIn) {
+        return (progress - startIn) / (endIn - startIn);
+      }
+      if (progress > startOut && progress <= endOut) {
+        return 1 - ((progress - startOut) / (endOut - startOut));
+      }
+      return 0;
+    };
+
+    const calculateTransformY = (progress, startIn, endIn, startOut, endOut) => {
+      if (progress < startIn || progress > endOut) return 20; // 20px down initially
+      if (progress >= endIn && progress <= startOut) return 0;
+      if (progress >= startIn && progress < endIn) {
+        return 20 - (20 * ((progress - startIn) / (endIn - startIn)));
+      }
+      if (progress > startOut && progress <= endOut) {
+        return -20 * ((progress - startOut) / (endOut - startOut)); // Slide up on exit
+      }
+      return 20;
+    };
+
     // Update canvas size on window resize
     window.addEventListener('resize', () => {
       resizeCanvas();
@@ -204,8 +234,10 @@ function onAppReady() {
       scrub: 0, // 0 for immediate scrub (Lenis already handles the smoothing)
       onUpdate: (self) => {
         // Calculate the current frame index based on the 0-1 progress
-        // Use Math.round over Math.floor to snap exactly to the nearest frame at the end of Lenis deceleration
-        const frameIndex = Math.round(self.progress * (TOTAL_FRAMES - 1));
+        const frameIndex = Math.min(
+          TOTAL_FRAMES - 1,
+          Math.floor(self.progress * TOTAL_FRAMES)
+        );
 
         // Only draw if the frame actually changed to prevent redundant draws
         if (frameIndex !== currentFrameIndex) {
@@ -218,6 +250,38 @@ function onAppReady() {
             }
           });
         }
+
+        // --- TEXT LAYER ORCHESTRATION ---
+        const p = self.progress;
+
+        // Stage 1 (0 to 15%)
+        if (stage1) {
+          stage1.style.opacity = calculateOpacity(p, 0.0, 0.03, 0.12, 0.15);
+          stage1.style.transform = `translateY(${calculateTransformY(p, 0.0, 0.03, 0.12, 0.15)}px)`;
+          stage1.style.pointerEvents = (p >= 0.0 && p <= 0.15) ? 'auto' : 'none';
+        }
+
+        // Stage 2 (15 to 40%)
+        if (stage2) {
+          stage2.style.opacity = calculateOpacity(p, 0.15, 0.18, 0.37, 0.40);
+          stage2.style.transform = `translateY(${calculateTransformY(p, 0.15, 0.18, 0.37, 0.40)}px)`;
+          stage2.style.pointerEvents = (p >= 0.15 && p <= 0.40) ? 'auto' : 'none';
+        }
+
+        // Stage 3 (40 to 60%)
+        if (stage3) {
+          stage3.style.opacity = calculateOpacity(p, 0.40, 0.43, 0.57, 0.60);
+          stage3.style.transform = `translateY(${calculateTransformY(p, 0.40, 0.43, 0.57, 0.60)}px)`;
+          stage3.style.pointerEvents = (p >= 0.40 && p <= 0.60) ? 'auto' : 'none';
+        }
+
+        // Stage 4 (60 to 100%)
+        if (stage4) {
+          stage4.style.opacity = calculateOpacity(p, 0.60, 0.65, 1.0, 1.1); // No fade out at the end, stays on screen
+          stage4.style.transform = `translateY(${calculateTransformY(p, 0.60, 0.65, 1.0, 1.1)}px)`;
+          stage4.style.pointerEvents = (p >= 0.60 && p <= 1.0) ? 'auto' : 'none';
+        }
+
       }
     });
 
@@ -226,3 +290,50 @@ function onAppReady() {
 
 // Start sequence
 init();
+
+/**
+ * Phase 6: Intersection Observer for Feature Cards
+ * Handles the crossfading of the sticky left-column graphics
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll('.feature-card');
+  const graphics = {
+    1: document.getElementById('graphic-1'),
+    2: document.getElementById('graphic-2'),
+    3: document.getElementById('graphic-3'),
+    4: document.getElementById('graphic-4'),
+  };
+
+  const observerOptions = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.5 // Trigger when card is 50% visible in the viewport
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Get the index of the currently intersecting card
+        const activeIndex = entry.target.getAttribute('data-index');
+
+        // Fade all graphics out
+        Object.values(graphics).forEach(graphic => {
+          if (graphic) {
+            graphic.classList.remove('opacity-100');
+            graphic.classList.add('opacity-0');
+          }
+        });
+
+        // Fade in the active graphic
+        const activeGraphic = graphics[activeIndex];
+        if (activeGraphic) {
+          activeGraphic.classList.remove('opacity-0');
+          activeGraphic.classList.add('opacity-100');
+        }
+      }
+    });
+  }, observerOptions);
+
+  // Observe all feature cards
+  cards.forEach(card => observer.observe(card));
+});
