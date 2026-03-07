@@ -387,10 +387,30 @@ if (AudioContextClass) {
     }
   }
 
-  // Attach to interaction nodes once DOM is fully parsed
-  document.addEventListener("DOMContentLoaded", () => {
+  // Attach to interaction nodes (module scripts execute after DOM parsing)
+  const attachInteractionSounds = () => {
     document.querySelectorAll('.interaction-node').forEach(node => {
       node.addEventListener('mouseenter', playInteractionSound);
     });
-  });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attachInteractionSounds);
+  } else {
+    attachInteractionSounds();
+  }
+
+  // Forcefully unlock AudioContext on first user interaction to bypass autoplay policies
+  const unlockAudio = () => {
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
+  };
+
+  document.addEventListener('click', unlockAudio);
+  document.addEventListener('touchstart', unlockAudio);
+  document.addEventListener('keydown', unlockAudio);
 }
