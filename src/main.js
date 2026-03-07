@@ -348,3 +348,49 @@ document.addEventListener("DOMContentLoaded", () => {
   // Observe all feature cards
   cards.forEach(card => observer.observe(card));
 });
+
+/**
+ * Phase 9: Audio UI Interactions
+ * Synthesizes a premium, subtle "pop" sound using Web Audio API on hover
+ */
+const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+if (AudioContextClass) {
+  const audioCtx = new AudioContextClass();
+
+  function playInteractionSound() {
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+
+    try {
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.type = 'sine';
+
+      // High to low frequency sweep gives that premium "pop/click" tactile feel
+      oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
+
+      // Sharp volume envelope
+      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.1);
+    } catch (e) {
+      console.warn("Audio interaction failed", e);
+    }
+  }
+
+  // Attach to interaction nodes once DOM is fully parsed
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.interaction-node').forEach(node => {
+      node.addEventListener('mouseenter', playInteractionSound);
+    });
+  });
+}
