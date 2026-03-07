@@ -130,8 +130,9 @@ function onAppReady() {
 
   // Initialize Lenis for smooth scrolling
   const lenis = new Lenis({
-    lerp: 0.05,
-    smoothWheel: true
+    lerp: 0.02, // Lower lerp for much softer, cinematic deceleration
+    smoothWheel: true,
+    wheelMultiplier: 0.8 // Slightly dampen mouse wheel input
   });
 
   function raf(time) {
@@ -203,10 +204,8 @@ function onAppReady() {
       scrub: 0, // 0 for immediate scrub (Lenis already handles the smoothing)
       onUpdate: (self) => {
         // Calculate the current frame index based on the 0-1 progress
-        const frameIndex = Math.min(
-          TOTAL_FRAMES - 1,
-          Math.floor(self.progress * TOTAL_FRAMES)
-        );
+        // Use Math.round over Math.floor to snap exactly to the nearest frame at the end of Lenis deceleration
+        const frameIndex = Math.round(self.progress * (TOTAL_FRAMES - 1));
 
         // Only draw if the frame actually changed to prevent redundant draws
         if (frameIndex !== currentFrameIndex) {
