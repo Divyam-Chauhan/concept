@@ -9,6 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 const TOTAL_FRAMES = 253;
 const images = [];
 
+// Global Audio Context
+const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+const audioCtx = AudioContextClass ? new AudioContextClass() : null;
+
 // DOM Elements
 const loaderScreen = document.getElementById('loader');
 const loaderBar = document.getElementById('loader-bar');
@@ -327,14 +331,25 @@ function onAppReady() {
 
           source.start(0);
 
-          // Trigger a visceral screen shake to match the aggression
-          document.body.style.transition = "transform 0.05s ease-in-out";
-          document.body.style.transform = "scale(1.02) translateY(5px)";
-          setTimeout(() => { document.body.style.transform = "scale(1.01) translateY(-5px)"; }, 50);
-          setTimeout(() => { document.body.style.transform = "scale(1) translateY(0)"; }, 100);
+          // Trigger a violent engine-start vibration — rapid bursts in 500ms
+          document.body.style.transition = "transform 0.04s ease-in-out";
+          document.body.style.transform = "scale(1.035) translateX(-10px) translateY(7px)";
+          setTimeout(() => { document.body.style.transform = "scale(1.04) translateX(12px) translateY(-9px)"; }, 45);
+          setTimeout(() => { document.body.style.transform = "scale(1.03) translateX(-8px) translateY(11px)"; }, 90);
+          setTimeout(() => { document.body.style.transform = "scale(1.045) translateX(9px) translateY(-7px)"; }, 135);
+          setTimeout(() => { document.body.style.transform = "scale(1.03) translateX(-11px) translateY(8px)"; }, 180);
+          setTimeout(() => { document.body.style.transform = "scale(1.035) translateX(7px) translateY(-10px)"; }, 225);
+          setTimeout(() => { document.body.style.transform = "scale(1.025) translateX(-9px) translateY(6px)"; }, 275);
+          setTimeout(() => { document.body.style.transform = "scale(1.03) translateX(6px) translateY(-8px)"; }, 325);
+          setTimeout(() => { document.body.style.transform = "scale(1.015) translateX(-4px) translateY(5px)"; }, 380);
+          setTimeout(() => { document.body.style.transform = "scale(1.008) translateX(3px) translateY(-3px)"; }, 435);
+          setTimeout(() => { document.body.style.transform = "scale(1) translateX(0) translateY(0)"; }, 500);
         }
 
-        lenis.scrollTo('#features', { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+        // Delay scroll until after the shake finishes so the shake isn't masked
+        setTimeout(() => {
+          lenis.scrollTo('#features', { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+        }, 500);
       });
     }
 
@@ -398,64 +413,61 @@ document.addEventListener("DOMContentLoaded", () => {
  * Phase 9: Audio UI Interactions
  * Synthesizes a premium, subtle "pop" sound using Web Audio API on hover
  */
-const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-if (AudioContextClass) {
-  const audioCtx = new AudioContextClass();
 
-  function playInteractionSound() {
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
 
-    try {
-      const oscillator = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-
-      oscillator.type = 'sine';
-
-      // High to low frequency sweep gives that premium "pop/click" tactile feel
-      oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
-
-      // Sharp volume envelope
-      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-
-      oscillator.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-
-      oscillator.start();
-      oscillator.stop(audioCtx.currentTime + 0.1);
-    } catch (e) {
-      console.warn("Audio interaction failed", e);
-    }
+function playInteractionSound() {
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
   }
 
-  // Attach to interaction nodes (module scripts execute after DOM parsing)
-  const attachInteractionSounds = () => {
-    document.querySelectorAll('.interaction-node').forEach(node => {
-      node.addEventListener('mouseenter', playInteractionSound);
-    });
-  };
+  try {
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', attachInteractionSounds);
-  } else {
-    attachInteractionSounds();
+    oscillator.type = 'sine';
+
+    // High to low frequency sweep gives that premium "pop/click" tactile feel
+    oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
+
+    // Sharp volume envelope
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.1);
+  } catch (e) {
+    console.warn("Audio interaction failed", e);
   }
-
-  // Forcefully unlock AudioContext on first user interaction to bypass autoplay policies
-  const unlockAudio = () => {
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-    document.removeEventListener('click', unlockAudio);
-    document.removeEventListener('touchstart', unlockAudio);
-    document.removeEventListener('keydown', unlockAudio);
-  };
-
-  document.addEventListener('click', unlockAudio);
-  document.addEventListener('touchstart', unlockAudio);
-  document.addEventListener('keydown', unlockAudio);
 }
+
+// Attach to interaction nodes (module scripts execute after DOM parsing)
+const attachInteractionSounds = () => {
+  document.querySelectorAll('.interaction-node').forEach(node => {
+    node.addEventListener('mouseenter', playInteractionSound);
+  });
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', attachInteractionSounds);
+} else {
+  attachInteractionSounds();
+}
+
+// Forcefully unlock AudioContext on first user interaction to bypass autoplay policies
+const unlockAudio = () => {
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  document.removeEventListener('click', unlockAudio);
+  document.removeEventListener('touchstart', unlockAudio);
+  document.removeEventListener('keydown', unlockAudio);
+};
+
+document.addEventListener('click', unlockAudio);
+document.addEventListener('touchstart', unlockAudio);
+document.addEventListener('keydown', unlockAudio);
