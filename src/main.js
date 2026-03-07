@@ -275,15 +275,23 @@ function onAppReady() {
           stage3.style.pointerEvents = (p >= 0.40 && p <= 0.60) ? 'auto' : 'none';
         }
 
-        // Stage 4 (60 to 100%)
+        // Stage 4 (85 to 100%) - Appears later when the car is almost fully assembled
         if (stage4) {
-          stage4.style.opacity = calculateOpacity(p, 0.60, 0.65, 1.0, 1.1); // No fade out at the end, stays on screen
-          stage4.style.transform = `translateY(${calculateTransformY(p, 0.60, 0.65, 1.0, 1.1)}px)`;
-          stage4.style.pointerEvents = (p >= 0.60 && p <= 1.0) ? 'auto' : 'none';
+          stage4.style.opacity = calculateOpacity(p, 0.85, 0.88, 1.0, 1.1); // No fade out at the end, stays on screen
+          stage4.style.transform = `translateY(${calculateTransformY(p, 0.85, 0.88, 1.0, 1.1)}px)`;
+          stage4.style.pointerEvents = (p >= 0.85 && p <= 1.0) ? 'auto' : 'none';
         }
 
       }
     });
+
+    // Button Interactivity
+    const igniteBtn = document.getElementById('ignite-btn');
+    if (igniteBtn) {
+      igniteBtn.addEventListener('click', () => {
+        lenis.scrollTo('#features', { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+      });
+    }
 
   }
 }
