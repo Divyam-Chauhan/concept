@@ -1,5 +1,9 @@
 import './style.css';
 import Lenis from 'lenis';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Constants
 const TOTAL_FRAMES = 253;
@@ -171,8 +175,34 @@ function onAppReady() {
 
     // Update canvas size on window resize
     window.addEventListener('resize', () => {
+      // Re-draw current frame (or frame 0 if scroll hasn't started)
       drawCover(images[0]);
     });
+
+    // Setup GSAP ScrollTrigger to scrub through the 253 frames
+    const appContainer = document.getElementById('app');
+
+    ScrollTrigger.create({
+      trigger: appContainer,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0, // 0 for immediate scrub (Lenis already handles the smoothing)
+      onUpdate: (self) => {
+        // Calculate the current frame index based on the 0-1 progress
+        const frameIndex = Math.min(
+          TOTAL_FRAMES - 1,
+          Math.floor(self.progress * TOTAL_FRAMES)
+        );
+
+        // Use requestAnimationFrame to ensure the draw happens at the right time
+        requestAnimationFrame(() => {
+          if (images[frameIndex]) {
+            drawCover(images[frameIndex]);
+          }
+        });
+      }
+    });
+
   }
 }
 
