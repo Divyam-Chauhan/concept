@@ -324,12 +324,15 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
 
-        // Fade in the active graphic
-        const activeGraphic = graphics[activeIndex];
-        if (activeGraphic) {
-          activeGraphic.classList.remove('opacity-0');
-          activeGraphic.classList.add('opacity-100');
-        }
+        // Wait for the fade-out transition (e.g. 700ms from duration-700) to clear ghosting,
+        // before fading in the new graphic. Using 300ms to make it feel responsive but clean.
+        setTimeout(() => {
+          const activeGraphic = graphics[activeIndex];
+          if (activeGraphic) {
+            activeGraphic.classList.remove('opacity-0');
+            activeGraphic.classList.add('opacity-100');
+          }
+        }, 300);
       }
     });
   }, observerOptions);
