@@ -1,4 +1,5 @@
 import './style.css';
+import Lenis from 'lenis';
 
 // Constants
 const TOTAL_FRAMES = 253;
@@ -122,7 +123,57 @@ async function init() {
  */
 function onAppReady() {
   console.log("App ready. All images loaded:", images.length);
-  // Canvas preparation and GSAP hooks will go here in next phases.
+
+  // Initialize Lenis for smooth scrolling
+  const lenis = new Lenis({
+    lerp: 0.05,
+    smoothWheel: true
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // Setup Canvas
+  const canvas = document.getElementById('hero-canvas');
+  if (canvas && images.length > 0) {
+    const ctx = canvas.getContext('2d');
+
+    // Function to draw image covering the canvas (like object-fit: cover)
+    const drawCover = (img) => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const imgRatio = img.width / img.height;
+      const canvasRatio = canvas.width / canvas.height;
+
+      let drawW = canvas.width;
+      let drawH = canvas.height;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (imgRatio > canvasRatio) {
+        drawW = canvas.height * imgRatio;
+        offsetX = (canvas.width - drawW) / 2;
+      } else {
+        drawH = canvas.width / imgRatio;
+        offsetY = (canvas.height - drawH) / 2;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+    };
+
+    // Draw the first frame
+    drawCover(images[0]);
+
+    // Update canvas size on window resize
+    window.addEventListener('resize', () => {
+      drawCover(images[0]);
+    });
+  }
 }
 
 // Start sequence
