@@ -145,11 +145,23 @@ function onAppReady() {
   if (canvas && images.length > 0) {
     const ctx = canvas.getContext('2d');
 
-    // Function to draw image covering the canvas (like object-fit: cover)
-    const drawCover = (img) => {
+    let currentFrameIndex = -1;
+
+    // Set initial canvas dimensions
+    const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
+      // Force a redraw of the current frame when resizing
+      if (currentFrameIndex >= 0 && images[currentFrameIndex]) {
+        drawCover(images[currentFrameIndex]);
+      } else if (images[0]) {
+        drawCover(images[0]);
+      }
+    };
+
+    // Function to draw image covering the canvas
+    const drawCover = (img) => {
       const imgRatio = img.width / img.height;
       const canvasRatio = canvas.width / canvas.height;
 
@@ -166,17 +178,19 @@ function onAppReady() {
         offsetY = (canvas.height - drawH) / 2;
       }
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
     };
 
+    // Initialize size
+    resizeCanvas();
+
     // Draw the first frame
+    currentFrameIndex = 0;
     drawCover(images[0]);
 
     // Update canvas size on window resize
     window.addEventListener('resize', () => {
-      // Re-draw current frame (or frame 0 if scroll hasn't started)
-      drawCover(images[0]);
+      resizeCanvas();
     });
 
     // Setup GSAP ScrollTrigger to scrub through the 253 frames
@@ -194,12 +208,17 @@ function onAppReady() {
           Math.floor(self.progress * TOTAL_FRAMES)
         );
 
-        // Use requestAnimationFrame to ensure the draw happens at the right time
-        requestAnimationFrame(() => {
-          if (images[frameIndex]) {
-            drawCover(images[frameIndex]);
-          }
-        });
+        // Only draw if the frame actually changed to prevent redundant draws
+        if (frameIndex !== currentFrameIndex) {
+          currentFrameIndex = frameIndex;
+
+          // Use requestAnimationFrame to ensure the draw happens at the right time
+          requestAnimationFrame(() => {
+            if (images[currentFrameIndex]) {
+              drawCover(images[currentFrameIndex]);
+            }
+          });
+        }
       }
     });
 
