@@ -138,6 +138,17 @@ function onAppReady() {
     smoothWheel: true
   });
 
+  // Hide the scroll hint on first scroll
+  const scrollHint = document.getElementById('scroll-hint');
+  if (scrollHint) {
+    const hideHint = () => {
+      scrollHint.style.opacity = '0';
+      setTimeout(() => { scrollHint.style.display = 'none'; }, 700);
+      lenis.off('scroll', hideHint);
+    };
+    lenis.on('scroll', hideHint);
+  }
+
   function raf(time) {
     lenis.raf(time);
     requestAnimationFrame(raf);
@@ -295,7 +306,7 @@ function onAppReady() {
       let engineBuffer = null;
 
       // Load and decode the audio file asynchronously
-      fetch('/engine%20start.m4a')
+      fetch('/engine-start.m4a')
         .then(response => response.arrayBuffer())
         .then(data => audioCtx.decodeAudioData(data))
         .then(buffer => { engineBuffer = buffer; })
