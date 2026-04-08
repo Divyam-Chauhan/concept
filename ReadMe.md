@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <strong>A high-fidelity exploration of modern web interactivity and minimalist aesthetics.</strong>
+  <strong>A high-performance visual experience built with Vanilla JS and GSAP.</strong>
 </p>
 
 <p align="center">
@@ -20,68 +20,38 @@
 ---
 
 ## 💎 The Vision
-**Concept One** is a high-octane visual project built to demonstrate that modern web applications can be both lightning-fast and visually immersive. It moves away from static layouts toward a "living" interface.
+**Concept One** is a demonstration of high-end web motion and minimalist design. By bypassing heavy frameworks, this project focuses on raw performance, fluid transitions, and a premium "boutique" web feel.
 
-* **Immersive UX:** Every scroll and hover interaction is engineered for tactile feedback.
-* **Performance First:** Zero-lag animations and optimized asset delivery.
-* **Aesthetic Depth:** A sophisticated dark-mode design tailored for next-gen SaaS and creative portfolios.
+* **Lightweight:** Built without the overhead of modern frameworks for instant execution.
+* **Kinetic Motion:** Leveraging GSAP for industry-standard, high-performance animations.
+* **Modern Aesthetic:** A sophisticated dark-mode UI designed for impact and clarity.
 
 ---
 
-## 🛠 Tech Stack
-| Layer | Technology | Purpose |
+## 🛠 Tech Stack (The "Vanilla" Power)
+This project is a testament to what can be achieved with core web technologies:
+
+| Component | Technology | Description |
 | :--- | :--- | :--- |
-| **Frontend** | React / Next.js | Component-driven architecture |
-| **Styling** | Tailwind CSS | Utility-first, responsive design |
-| **Motion** | Framer Motion | Physics-based fluid animations |
-| **Hosting** | Cloudflare Pages | Global edge-network deployment |
+| **Foundation** | **HTML5 / CSS3** | Semantic structure and custom-crafted styling. |
+| **Logic** | **Vanilla JavaScript** | Pure ES6+ logic for high-speed interactivity. |
+| **Animation** | **GSAP** | GreenSock Animation Platform for fluid motion. |
+| **Scrolling** | **Locomotive Scroll** | Implementation of smooth, kinetic scrolling. |
+| **Hosting** | **Cloudflare Pages** | Deployed on the global edge network. |
 
 ---
 
-## ✨ Key Highlights
+## ✨ Engineering Highlights
 
-### 1. Kinetic Interaction
-Features typography and elements that react to user behavior, ensuring the interface feels responsive and alive.
+### 1. Zero-Framework Speed
+By avoiding React or Next.js, the bundle size is kept to a minimum, ensuring the site is interactive the moment it hits the browser.
 
-### 2. Responsive Fidelity
-Engineered with a "Mobile-First, Desktop-Perfect" philosophy. The experience remains uncompromising across all device tiers.
+### 2. Advanced Motion Logic
+Utilizes GSAP timelines to orchestrate complex sequences that respond to user viewport movements.
 
-### 3. Glassmorphism & Visual Layering
-Utilizes advanced CSS backdrop filters and depth-of-field effects to create a premium, spatial UI feel.
-
----
-
-## 📸 Experience the Motion
-> [!IMPORTANT]
-> Static images cannot capture the fluidity of the animations. For the intended experience, please visit the **[Live Demo](https://concept-one.pages.dev/)**.
-
+### 3. Responsive Fidelity
+A custom-built responsive grid system that ensures visual integrity from mobile devices to ultra-wide displays.
 
 ---
 
-## 🚀 Local Development
-To inspect the architecture or run the project in a local environment:
-
-1.  **Clone the Repository**
-    ```bash
-    git clone [https://github.com/Divyam-Chauhan/concept.git](https://github.com/Divyam-Chauhan/concept.git)
-    ```
-2.  **Install Dependencies**
-    ```bash
-    npm install
-    ```
-3.  **Start Development Server**
-    ```bash
-    npm run dev
-    ```
-
----
-
-<p align="center">
-  Designed & Developed by <strong>Divyam Chauhan</strong>
-  <br>
-  <em>Pushing pixels, one concept at a time.</em>
-  <br><br>
-  <a href="https://github.com/Divyam-Chauhan">
-    <img src="https://img.shields.io/badge/Follow-Divyam-181717?style=flat&logo=github" alt="Follow on GitHub">
-  </a>
-</p>
+## 📸 Preview the Experience
