@@ -52,11 +52,26 @@ Utilizes GSAP timelines to create complex, non-linear animation sequences that r
 ### 3. Responsive Fidelity
 A custom-built responsive system that ensures the high-end visual integrity is maintained from 4K ultra-wide monitors down to mobile devices.
 
----
 
-## 📸 Preview the Experience
-> [!IMPORTANT]
-> The site’s character lies in its movement. Static screenshots cannot capture the 60fps fluidity. Experience it live at **[concept-one.pages.dev](https://concept-one.pages.dev/)**.
+<div align="center">
+
+<br>
+
+### 🌐 EXPERIENCE IT LIVE
+
+<br>
+
+<a href="https://concept-one.pages.dev/">
+  <img src="https://img.shields.io/badge/▶_LAUNCH_THE_EXPERIENCE-concept--one.pages.dev-FF4500?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=000000" alt="Live Demo" height="50">
+</a>
+
+<br><br>
+
+<sup>Static screenshots can't capture 60fps fluidity — <strong>click above to see it move.</strong></sup>
+
+<br><br>
+
+</div>
 
 ---
 
