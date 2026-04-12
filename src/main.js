@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 // Constants
-const TOTAL_FRAMES = 253;
+const TOTAL_FRAMES = 284;
 const images = [];
 
 // Global Audio Context
@@ -21,7 +21,7 @@ const loaderText = document.getElementById('loader-text');
 /**
  * Pads a number with leading zeros
  */
-function padNumber(num, length = 3) {
+function padNumber(num, length = 4) {
   return num.toString().padStart(length, '0');
 }
 
@@ -55,12 +55,12 @@ function extractBackgroundColor() {
       }
     };
     img.onerror = reject;
-    img.src = '/frames/ezgif-frame-001.jpg';
+    img.src = '/JPG/output_frames_0001.jpg';
   });
 }
 
 /**
- * Preloads all 253 frames securely into the 'images' array
+ * Preloads all 284 4K frames into the 'images' array
  */
 function preloadImages() {
   return new Promise((resolve) => {
@@ -69,7 +69,7 @@ function preloadImages() {
     for (let i = 1; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
       const frameNum = padNumber(i);
-      const src = `/frames/ezgif-frame-${frameNum}.jpg`;
+      const src = `/JPG/output_frames_${frameNum}.jpg`;
 
       img.onload = () => {
         loadedCount++;
