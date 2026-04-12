@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://concept-one.pages.dev/">
-    <img src="https://img.shields.io/badge/LIVE_DEMO-Visit_Website-6153ff?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live Demo">
+    <img src="https://img.shields.io/badge/LIVE_DEMO-Visit_Website-6153ff?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live Demo" target="_blank">
   </a>
   <a href="https://github.com/Divyam-Chauhan/concept">
     <img src="https://img.shields.io/badge/SOURCE_CODE-View_Files-black?style=for-the-badge&logo=github" alt="Source Code">
