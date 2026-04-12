@@ -58,10 +58,6 @@ A custom-built responsive system that ensures the high-end visual integrity is m
 > [!IMPORTANT]
 > The site’s character lies in its movement. Static screenshots cannot capture the 60fps fluidity. Experience it live at **[concept-one.pages.dev](https://concept-one.pages.dev/)**.
 
-<p align="center">
-  <img src="https://via.placeholder.com/800x450/111/fff?text=Place+A+Sleek+Screenshot+Of+The+Site+Here" alt="Project Screenshot" width="100%">
-</p>
-
 ---
 
 ## 🚀 Local Inspection
